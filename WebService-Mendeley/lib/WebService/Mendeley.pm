@@ -3,7 +3,7 @@ package WebService::Mendeley;
 use warnings;
 use strict;
 
-use Carp 'cluck';
+use Carp qw( confess );
 use Data::Dumper;
 use LWP::UserAgent;
 
@@ -46,6 +46,7 @@ my $rh_api_configuration = {
          'mandatory' => {
             'consumer_key'  => 1,
          },
+         'query_method'    => 'get', 
       },
       
       'papers'           => {
@@ -57,6 +58,7 @@ my $rh_api_configuration = {
          'mandatory' => {
             'consumer_key'  => 1,
          },
+         'query_method'    => 'get',
       },
       
       'publications'     => {
@@ -68,15 +70,17 @@ my $rh_api_configuration = {
          'mandatory' => {
             'consumer_key'  => 1,
          },
+         'query_method'    => 'get',
       },
       
       'tags'             => {
-         'url'       => 'http://www.mendeley.com/oapi/stats/tags/',
+         'url'       => 'http://www.mendeley.com/oapi/stats/tags/%s/',
          'optional'  => {},
          'mandatory' => {
-            'discipline_id' => 1,
+            'discipline'    => 1,
             'consumer_key'  => 1,
          },
+         'query_method'    => 'url',
       },
    
    },
@@ -111,7 +115,7 @@ sub new {
    my $rh_params = shift;
    my $self      = { };
    
-   cluck "Missing parameter hash"
+   confess "Missing parameter hash"
       unless ( defined $rh_params && $rh_params && ref $rh_params eq 'HASH' );
    
    _validate_params( $rh_params );
@@ -136,18 +140,18 @@ sub _validate_params {
    
    ## Validate mode, method and required method parameters.
    
-   cluck "Missing or invalid `mode` parameter."
+   confess "Missing or invalid `mode` parameter."
       unless ( defined $mode && $mode && exists $rh_api_configuration->{ $mode } );
    
-   cluck "Missing or invalid `method` parameter."
+   confess "Missing or invalid `method` parameter."
       unless ( defined $method && $method && exists $rh_api_configuration->{ $mode }->{ $method } );
    
    my $rh_required_params = 
-      $rh_api_configuration->{ $mode }->{ $method }->{ required };
+      $rh_api_configuration->{ $mode }->{ $method }->{ mandatory };
    
    foreach my $rp ( keys %$rh_required_params ) {
       
-      cluck "Mandatory parameter `$rp` is missing."
+      confess "Mandatory parameter `$rp` is missing."
          unless ( exists $rh_params->{ $rp } && $rh_params->{ $rp } );
       
    }
@@ -177,10 +181,10 @@ sub query {
    
    if ( $response->is_success ) {
       return
-         WebService::Mendeley::Reply->new( $response->decoded_content );
+         WebService::Mendeley::Reply->new( $response->decoded_content    );
    }
    else {
-       cluck $response->status_line;
+       confess $response->status_line;
    }
    
 }

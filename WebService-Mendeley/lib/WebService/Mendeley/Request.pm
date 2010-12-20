@@ -44,16 +44,58 @@ Creates and encodes the request URI. Do not use this function directly.
 sub create_uri {
    my $self      = shift;
    my $rh_params = shift;
-      
-   my $uri  = 
-      URI->new( $rh_params->{'config'}->{'url'}, 'http' ) ;
    
-   my $rh_query_params = $self->create_query( $rh_params );
+   my $query_method = 
+      $rh_params->{'config'}{'query_method'};
+   my $url           = 
+      $rh_params->{'config'}->{'url'};
    
-   $uri->query_form( %$rh_query_params  ) ;
-    
-   return $uri ;
+   if ( $query_method eq 'get' ) {
+
+      my $uri  = 
+         URI->new( $url , 'http' ) ;
+            
+      my $rh_query_params = $self->create_query( $rh_params );
+
+      $uri->query_form( %$rh_query_params  ) ;
       
+      return $uri;
+      
+   } else {
+      
+      my $formatted_url = 
+         $self->format_url( $url, $rh_params );
+      
+      my $uri  = 
+         URI->new( $formatted_url , 'http' ) ;
+            
+      my $rh_query_params = $self->create_query( $rh_params );
+
+      $uri->query_form( %$rh_query_params  ) ;
+         
+      return $uri;
+      
+   }
+   
+}
+
+=head2 format_url
+
+Formats a URL with the required parameters. Do not use this function directly.
+
+=cut
+
+sub format_url {
+   my $self      = shift;
+   my $url       = shift;
+   my $rh_params = shift;
+   
+   if ( $rh_params->{method}  eq 'tags' && $rh_params->{mode} eq 'stats' ){
+      $url = sprintf( $url, $rh_params->{'discipline'} );
+   }
+   
+   return $url;
+   
 }
 
 =head2 create_query
