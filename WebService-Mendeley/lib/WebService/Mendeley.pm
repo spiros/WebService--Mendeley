@@ -3,7 +3,7 @@ package WebService::Mendeley;
 use warnings;
 use strict;
 
-use Carp;
+use Carp 'cluck';
 use Data::Dumper;
 use LWP::UserAgent;
 
@@ -12,7 +12,7 @@ use WebService::Mendeley::Reply;
 
 =head1 NAME
 
-WebService::Mendeley - The great new WebService::Mendeley!
+WebService::Mendeley - Perl wrapper around Mendeley API
 
 =head1 VERSION
 
@@ -22,34 +22,166 @@ Version 0.01
 
 our $VERSION = '0.01';
 
-
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use WebService::Mendeley;
-
-    my $foo = WebService::Mendeley->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
+=head1 METHODS
 
 =head2 new
 
 =cut
 
+my $rh_api_configuration = {
+   
+   ##
+   ## Stats methods
+   
+   'stats' => {
+      
+      'authors'          => {
+         'url'       => 'http://www.mendeley.com/oapi/stats/authors/',
+         'optional'  => {
+            'discipline_id' => 1,
+            'upandcoming'   => 1,          
+         },
+         'mandatory' => {
+            'consumer_key'  => 1,
+         },
+      },
+      
+      'papers'           => {
+         'url'       => 'http://www.mendeley.com/oapi/stats/papers/',
+         'optional'  => {
+            'discipline'    => 1,
+            'upandcoming'   => 1,          
+         },
+         'mandatory' => {
+            'consumer_key'  => 1,
+         },
+      },
+      
+      'publications'     => {
+         'url'       => 'http://www.mendeley.com/oapi/stats/publications/',
+         'optional'  => {
+            'discipline'    => 1,
+            'upandcoming'   => 1,          
+         },
+         'mandatory' => {
+            'consumer_key'  => 1,
+         },
+      },
+      
+      'tags'             => {
+         'url'       => 'http://www.mendeley.com/oapi/stats/tags/',
+         'optional'  => {},
+         'mandatory' => {
+            'discipline_id' => 1,
+            'consumer_key'  => 1,
+         },
+      },
+   
+   },
+   
+   ##
+   ## Search methods
+   
+   'search' => {
+      'search'           => 1,
+      'document_details' => 1,
+      'related'          => 1,
+      'authored'         => 1,
+      'tagged'           => 1,
+      'categories'       => 1,
+      'subcategories'    => 1,
+   },   
+   
+   ##
+   ## Public group methods
+   
+   'public_groups' => {
+      'overview'         => 1,
+      'details'          => 1,
+      'documents'        => 1,
+      'people'           => 1,
+   }   
+};
+
+
 sub new {
-   my $class = shift;
-   my $self  = { };
+   my $class     = shift;
+   my $rh_params = shift;
+   my $self      = { };
+   
+   cluck "Missing parameter hash"
+      unless ( defined $rh_params && $rh_params && ref $rh_params eq 'HASH' );
+   
+   _validate_params( $rh_params );
+         
+   $self->{ agent }   = LWP::UserAgent->new( );
+   $self->{ request } = WebService::Mendeley::Request->new( $rh_params );
+   $self->{ params }  = $rh_params;
    
    return bless $self, $class;
+   
+}
+
+=head2 _validate_params
+
+=cut
+
+sub _validate_params {
+   my $rh_params = shift;
+   
+   my $mode   = $rh_params->{'mode'};
+   my $method = $rh_params->{'method'};
+   
+   ## Validate mode, method and required method parameters.
+   
+   cluck "Missing or invalid `mode` parameter."
+      unless ( defined $mode && $mode && exists $rh_api_configuration->{ $mode } );
+   
+   cluck "Missing or invalid `method` parameter."
+      unless ( defined $method && $method && exists $rh_api_configuration->{ $mode }->{ $method } );
+   
+   my $rh_required_params = 
+      $rh_api_configuration->{ $mode }->{ $method }->{ required };
+   
+   foreach my $rp ( keys %$rh_required_params ) {
+      
+      cluck "Mandatory parameter `$rp` is missing."
+         unless ( exists $rh_params->{ $rp } && $rh_params->{ $rp } );
+      
+   }
+   
+   ## Add static API configuration to parameter hash.
+   
+   $rh_params->{'config'} = $rh_api_configuration->{ $mode }->{ $method };
+   
+   return 1;
+   
+}
+
+=head2 query
+
+This function returns a xxxxx object which can be
+interrogated to obtain the results in some form or shape.
+
+This function returns I<undef> on error.
+
+=cut
+
+sub query {
+   my $self = shift;
+   
+   my $response =
+      $self->{ agent }->request( $self->{ request }->request );
+   
+   if ( $response->is_success ) {
+      return
+         WebService::Mendeley::Reply->new( $response->decoded_content );
+   }
+   else {
+       cluck $response->status_line;
+   }
    
 }
 

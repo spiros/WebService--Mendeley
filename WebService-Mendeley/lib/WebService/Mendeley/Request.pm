@@ -3,49 +3,91 @@ package WebService::Mendeley::Request;
 use warnings;
 use strict;
 
+use Data::Dumper;
+use URI;
+use HTTP::Request;
+
 =head1 NAME
 
 WebService::Mendeley::Request - The great new WebService::Mendeley!
 
-=head1 VERSION
-
-Version 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
-
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use WebService::Mendeley;
-
-    my $foo = WebService::Mendeley->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
+=head1 METHODS
 
 =head2 new
 
 =cut
 
 sub new {
-   my $class = shift;
-   my $self  = { };
+   my $class     = shift;
+   my $rh_params = shift;
+   my $self      = { };   
    
-   return bless $self, $class;
+   bless $self, $class;
+   
+   $self->{ request } =
+      HTTP::Request->new( 'GET', $self->create_uri( $rh_params ) );
+
+   warn Dumper $rh_params;
+   warn Dumper $self;
+   
+   return $self;
    
 }
 
+=head2 create_uri
+
+Creates and encodes the request URI. Do not use this function directly.
+
+=cut
+
+sub create_uri {
+   my $self      = shift;
+   my $rh_params = shift;
+      
+   my $uri  = 
+      URI->new( $rh_params->{'config'}->{'url'}, 'http' ) ;
+   
+   my $rh_query_params = $self->create_query( $rh_params );
+   
+   $uri->query_form( %$rh_query_params  ) ;
+    
+   return $uri ;
+      
+}
+
+=head2 create_query
+
+=cut
+
+sub create_query {
+   my $self      = shift;
+   my $rh_params = shift;
+   
+   my $rh_query = { };
+   
+   foreach my $k ( keys %{ $rh_params->{'config'}{'optional'} } ) {
+      next unless exists $rh_params->{ $k };
+      $rh_query->{ $k } = $rh_params->{$k};
+   }
+
+   foreach my $k ( keys %{ $rh_params->{'config'}{'mandatory'} } ) {
+      $rh_query->{ $k } = $rh_params->{$k};
+   }
+   
+   return $rh_query;
+      
+}
+
+=head2 uri
+
+=cut
+
+sub request {
+   my $self = shift;
+   return $self->{'request'};
+}
 
 =head1 AUTHOR
 

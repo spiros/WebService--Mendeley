@@ -7,40 +7,18 @@ use strict;
 
 WebService::Mendeley::Reply - The great new WebService::Mendeley!
 
-=head1 VERSION
-
-Version 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
-
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use WebService::Mendeley;
-
-    my $foo = WebService::Mendeley->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
+=head1 METHODS
 
 =head2 new
 
 =cut
 
 sub new {
-   my $class = shift;
-   my $self  = { };
+   my $class    = shift;
+   my $content  = shift;
+   my $self     = { };
    
    return bless $self, $class;
    
