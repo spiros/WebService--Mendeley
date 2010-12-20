@@ -9,13 +9,15 @@ use HTTP::Request;
 
 =head1 NAME
 
-WebService::Mendeley::Request - The great new WebService::Mendeley!
+WebService::Mendeley::Request - WebService::Mendeley request object
 
 =head1 SYNOPSIS
 
 =head1 METHODS
 
 =head2 new
+
+Creates an instance of the request object. Do not use this function directly.
 
 =cut
 
@@ -28,9 +30,6 @@ sub new {
    
    $self->{ request } =
       HTTP::Request->new( 'GET', $self->create_uri( $rh_params ) );
-
-   warn Dumper $rh_params;
-   warn Dumper $self;
    
    return $self;
    
@@ -59,6 +58,8 @@ sub create_uri {
 
 =head2 create_query
 
+Creates and formats the query parameters. Do not use this function directly.
+
 =cut
 
 sub create_query {
@@ -80,7 +81,9 @@ sub create_query {
       
 }
 
-=head2 uri
+=head2 request
+
+Returns the request object. Do not use this function directly.
 
 =cut
 
@@ -98,9 +101,6 @@ Spiros Denaxas, C<< <s.denaxas at gmail.com> >>
 Please report any bugs or feature requests to C<bug-webservice-mendeley at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=WebService-Mendeley>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
-
-
 
 =head1 SUPPORT
 
