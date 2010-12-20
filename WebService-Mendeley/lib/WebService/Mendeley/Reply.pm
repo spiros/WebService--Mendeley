@@ -7,13 +7,15 @@ use JSON::XS;
 
 =head1 NAME
 
-WebService::Mendeley::Reply - The great new WebService::Mendeley!
+WebService::Mendeley::Reply - WebService::Mendeley reply object
 
 =head1 SYNOPSIS
 
 =head1 METHODS
 
 =head2 new
+
+Creates an instance of the request object. Do not use this function directly.
 
 =cut
 
@@ -51,9 +53,6 @@ Please report any bugs or feature requests to C<bug-webservice-mendeley at rt.cp
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=WebService-Mendeley>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
-
-
-
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
@@ -82,10 +81,6 @@ L<http://cpanratings.perl.org/d/WebService-Mendeley>
 L<http://search.cpan.org/dist/WebService-Mendeley/>
 
 =back
-
-
-=head1 ACKNOWLEDGEMENTS
-
 
 =head1 LICENSE AND COPYRIGHT
 

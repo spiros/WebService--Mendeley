@@ -131,10 +131,6 @@ L<http://search.cpan.org/dist/WebService-Mendeley/>
 
 =back
 
-
-=head1 ACKNOWLEDGEMENTS
-
-
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2010 Spiros Denaxas.
