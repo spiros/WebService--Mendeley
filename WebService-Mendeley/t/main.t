@@ -17,6 +17,13 @@ my $M = WebService::Mendeley->new( $rh_params );
 
 isa_ok( $M, 'WebService::Mendeley' );
 
-$M->query;
+my $Mreply = $M->query;
+
+isa_ok( $Mreply, 'WebService::Mendeley::Reply' );
+
+my $ra = $Mreply->results;
+
+warn Dumper $ra;
+
 
 

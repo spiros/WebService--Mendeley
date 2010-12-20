@@ -1,13 +1,15 @@
-package WebService::Mendeley::Reply;
+package WebService::Mendeley::Request;
 
 use warnings;
 use strict;
 
-use JSON::XS;
+use Data::Dumper;
+use URI;
+use HTTP::Request;
 
 =head1 NAME
 
-WebService::Mendeley::Reply - The great new WebService::Mendeley!
+WebService::Mendeley::Request - The great new WebService::Mendeley!
 
 =head1 SYNOPSIS
 
@@ -18,27 +20,73 @@ WebService::Mendeley::Reply - The great new WebService::Mendeley!
 =cut
 
 sub new {
-   my $class    = shift;
-   my $raw  = shift;
-   my $self     = { };
+   my $class     = shift;
+   my $rh_params = shift;
+   my $self      = { };   
    
-   # todo: need to eval this?
+   bless $self, $class;
    
-   $self->{ data } = decode_json( $raw );
-      
-   return bless $self, $class;
+   $self->{ request } =
+      HTTP::Request->new( 'GET', $self->create_uri( $rh_params ) );
+
+   warn Dumper $rh_params;
+   warn Dumper $self;
+   
+   return $self;
    
 }
 
-=head2 results
+=head2 create_uri
+
+Creates and encodes the request URI. Do not use this function directly.
 
 =cut
 
-sub results {
+sub create_uri {
+   my $self      = shift;
+   my $rh_params = shift;
+      
+   my $uri  = 
+      URI->new( $rh_params->{'config'}->{'url'}, 'http' ) ;
+   
+   my $rh_query_params = $self->create_query( $rh_params );
+   
+   $uri->query_form( %$rh_query_params  ) ;
+    
+   return $uri ;
+      
+}
+
+=head2 create_query
+
+=cut
+
+sub create_query {
+   my $self      = shift;
+   my $rh_params = shift;
+   
+   my $rh_query = { };
+   
+   foreach my $k ( keys %{ $rh_params->{'config'}{'optional'} } ) {
+      next unless exists $rh_params->{ $k };
+      $rh_query->{ $k } = $rh_params->{$k};
+   }
+
+   foreach my $k ( keys %{ $rh_params->{'config'}{'mandatory'} } ) {
+      $rh_query->{ $k } = $rh_params->{$k};
+   }
+   
+   return $rh_query;
+      
+}
+
+=head2 uri
+
+=cut
+
+sub request {
    my $self = shift;
-   
-   return $self->{ data };
-   
+   return $self->{'request'};
 }
 
 =head1 AUTHOR
