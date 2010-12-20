@@ -102,10 +102,53 @@ my $rh_api_configuration = {
    ## Public group methods
    
    'public_groups' => {
-      'overview'         => 1,
-      'details'          => 1,
-      'documents'        => 1,
-      'people'           => 1,
+      'overview'         => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/groups/',
+         'optional'  => {
+            'page'  => 1,
+            'items' => 1,
+            'cat'   => 1,
+         },
+         'mandatory' => {
+            'consumer_key'  => 1,
+         },
+         'query_method'    => 'get',
+      },
+      
+      'details'          => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/groups/%s/',
+         'optional'  => {},
+         'mandatory' => {
+            'id'            => 1,
+            'consumer_key'  => 1,
+         },
+         'query_method'    => 'url',
+      },
+      
+      'documents'        => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/groups/%s/docs/',
+         'optional'  => {
+            'details'  => 1,
+            'page'     => 1,
+            'items'    => 1,
+         },
+         'mandatory' => {
+            'id'            => 1,
+            'consumer_key'  => 1,
+         },
+         'query_method'    => 'url',
+      },
+      
+      'people'           => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/groups/%s/people/',
+         'optional'  => {},
+         'mandatory' => {
+            'id'            => 1,
+            'consumer_key'  => 1,
+         },
+         'query_method'    => 'url',
+      }
+   
    }   
 };
 
