@@ -244,8 +244,6 @@ the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=WebService
 automatically be notified of progress on your bug as I make changes.
 
 
-
-
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
@@ -274,10 +272,6 @@ L<http://cpanratings.perl.org/d/WebService-Mendeley>
 L<http://search.cpan.org/dist/WebService-Mendeley/>
 
 =back
-
-
-=head1 ACKNOWLEDGEMENTS
-
 
 =head1 LICENSE AND COPYRIGHT
 
