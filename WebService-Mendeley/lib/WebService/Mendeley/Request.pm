@@ -72,7 +72,7 @@ sub create_uri {
       my $rh_query_params = $self->create_query( $rh_params );
 
       $uri->query_form( %$rh_query_params  ) ;
-         
+      
       return $uri;
       
    }
@@ -92,6 +92,10 @@ sub format_url {
    
    if ( $rh_params->{method}  eq 'tags' && $rh_params->{mode} eq 'stats' ){
       $url = sprintf( $url, $rh_params->{'discipline'} );
+   } 
+   
+   elsif ( $rh_params->{method}  eq 'details' && $rh_params->{mode} eq 'public_groups' ){
+      $url = sprintf( $url, $rh_params->{'id'} );
    }
    
    return $url;

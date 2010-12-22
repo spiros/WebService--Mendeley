@@ -250,7 +250,6 @@ You can find documentation for this module with the perldoc command.
 
     perldoc WebService::Mendeley
 
-
 You can also look for information at:
 
 =over 4
@@ -282,7 +281,6 @@ under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
 See http://dev.perl.org/licenses/ for more information.
-
 
 =cut
 
