@@ -89,7 +89,17 @@ my $rh_api_configuration = {
    ## Search methods
    
    'search' => {
-      'search'           => 1,
+      'search'           => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/search/%s',
+         'optional'  => {
+            'page'  => 1,
+            'items' => 1,
+         },
+         'mandatory' => {
+            'consumer_key'  => 1,
+         },
+         'query_method'    => 'url',
+      },
       'document_details' => 1,
       'related'          => 1,
       'authored'         => 1,

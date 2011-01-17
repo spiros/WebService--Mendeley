@@ -106,6 +106,10 @@ sub format_url {
       $url = sprintf( $url, $rh_params->{'id'} );
    }
 
+   elsif ( $rh_params->{method} eq 'search' && $rh_params->{mode} eq 'search' ) {
+      $url = sprintf( $url, $rh_params->{'terms'} );
+   }
+
    return $url;
    
 }
