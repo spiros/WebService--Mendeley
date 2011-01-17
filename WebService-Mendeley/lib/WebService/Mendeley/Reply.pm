@@ -23,8 +23,8 @@ sub new {
    my $class    = shift;
    my $raw  = shift;
    my $self     = { };
-   
-   # todo: need to eval this?
+      
+   # TODO: need to eval this?
    
    $self->{ data } = decode_json( $raw );
       

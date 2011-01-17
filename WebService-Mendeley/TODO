@@ -1,2 +1,9 @@
 
-* Implement rate limiter
+* Implement rate limiter: implement rate limiting within the actual code for the thresholds and possibly rotate between different consumer keys
+
+* Inspect HTTP return codes: this is partially done by LWP::UserAgent which just checks for 200 or not; the Mendeley API has more return codes
+
+* During JSON deparsing, possibly wrap it around an eval to be safe.
+
+* Some tests will break if a given id is removed - would love to have Mendeley create test entities just for testing applications
+

@@ -13,7 +13,9 @@ t/main.t
 t/manifest.t
 t/papers.t
 t/pg_details.t
+t/pg_documents.t
 t/pg_overview.t
+t/pg_people.t
 t/pod-coverage.t
 t/pod.t
 t/publications.t
