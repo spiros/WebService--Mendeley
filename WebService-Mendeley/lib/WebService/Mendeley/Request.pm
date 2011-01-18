@@ -58,7 +58,7 @@ sub create_uri {
       my $rh_query_params = $self->create_query( $rh_params );
 
       $uri->query_form( %$rh_query_params  ) ;
-      
+            
       return $uri;
       
    } else {
@@ -72,7 +72,7 @@ sub create_uri {
       my $rh_query_params = $self->create_query( $rh_params );
 
       $uri->query_form( %$rh_query_params  ) ;
-      
+            
       return $uri;
       
    }
@@ -121,7 +121,11 @@ sub format_url {
    elsif ( $rh_params->{method} eq 'authored' && $rh_params->{mode} eq 'search' ) {
       $url = sprintf( $url, $rh_params->{'name'} );
    }
-   
+
+   elsif ( $rh_params->{method} eq 'related' && $rh_params->{mode} eq 'search' ) {
+      $url = sprintf( $url, $rh_params->{'canonical_id'} );
+   }
+      
    return $url;
    
 }
