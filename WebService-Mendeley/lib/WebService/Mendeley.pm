@@ -101,7 +101,17 @@ my $rh_api_configuration = {
          'query_method'    => 'url',
       },
       
-      'document_details' => 1,
+      'details' => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/details/%s/',
+         'optional'  => { 
+         },
+         'mandatory' => {
+            'consumer_key'  => 1,
+            'id'            => 1,
+            'type'          => 1
+         },
+         'query_method'    => 'url',
+      },
       
       'related'          => {
          'url'       => 'http://www.mendeley.com/oapi/documents/tagged/%s/',
@@ -128,7 +138,6 @@ my $rh_api_configuration = {
             'name'          => 1,
          },
          'query_method'    => 'url',
-         
       },
       
       'tagged'           => {

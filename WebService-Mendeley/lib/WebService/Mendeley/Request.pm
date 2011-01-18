@@ -125,6 +125,11 @@ sub format_url {
    elsif ( $rh_params->{method} eq 'related' && $rh_params->{mode} eq 'search' ) {
       $url = sprintf( $url, $rh_params->{'canonical_id'} );
    }
+
+   elsif ( $rh_params->{method} eq 'details' && $rh_params->{mode} eq 'search' ) {
+      $url = sprintf( $url, $rh_params->{'id'} );
+   }
+   
       
    return $url;
    

@@ -7,3 +7,4 @@
 
 * Some tests will break if a given id is removed - would love to have Mendeley create test entities just for testing applications
 
+* Stricter parameter checking, for example type for document_details can be validated
