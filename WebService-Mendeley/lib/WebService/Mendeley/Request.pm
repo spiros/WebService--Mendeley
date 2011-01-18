@@ -109,6 +109,11 @@ sub format_url {
    elsif ( $rh_params->{method} eq 'search' && $rh_params->{mode} eq 'search' ) {
       $url = sprintf( $url, $rh_params->{'terms'} );
    }
+   
+   elsif ( $rh_params->{method} eq 'subcategories' && $rh_params->{mode} eq 'search' ) {
+      $url = sprintf( $url, $rh_params->{'category_id'} );
+   }
+   
 
    return $url;
    

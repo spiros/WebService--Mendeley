@@ -104,8 +104,23 @@ my $rh_api_configuration = {
       'related'          => 1,
       'authored'         => 1,
       'tagged'           => 1,
-      'categories'       => 1,
-      'subcategories'    => 1,
+      'categories'       => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/categories',
+         'optional'  => {},
+         'mandatory' => {
+            'consumer_key'  => 1,
+         },
+         'query_method'    => 'get',
+         },
+      'subcategories'    => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/subcategories/%s/',
+         'optional'  => { },
+         'mandatory' => {
+            'consumer_key'  => 1,
+            'category_id'   => 1,            
+         },
+         'query_method'    => 'url',
+      },
    },   
    
    ##
