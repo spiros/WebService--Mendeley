@@ -114,7 +114,14 @@ sub format_url {
       $url = sprintf( $url, $rh_params->{'category_id'} );
    }
    
+   elsif ( $rh_params->{method} eq 'tagged' && $rh_params->{mode} eq 'search' ) {
+      $url = sprintf( $url, $rh_params->{'tag'} );
+   }
 
+   elsif ( $rh_params->{method} eq 'authored' && $rh_params->{mode} eq 'search' ) {
+      $url = sprintf( $url, $rh_params->{'name'} );
+   }
+   
    return $url;
    
 }

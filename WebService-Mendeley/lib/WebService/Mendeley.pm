@@ -100,10 +100,41 @@ my $rh_api_configuration = {
          },
          'query_method'    => 'url',
       },
+      
       'document_details' => 1,
+      
       'related'          => 1,
-      'authored'         => 1,
-      'tagged'           => 1,
+      
+      'authored'         => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/authored/%s/',
+         'optional'  => { 
+            'page'  => 1,
+            'items' => 1,
+            'year'  => 1,
+         },
+         'mandatory' => {
+            'consumer_key'  => 1,
+            'name'          => 1,
+         },
+         'query_method'    => 'url',
+         
+      },
+      
+      'tagged'           => {
+         'url'       => 'http://www.mendeley.com/oapi/documents/tagged/%s/',
+         'optional'  => { 
+            'page'   => 1,
+            'items'  => 1,
+            'cat'    => 1,
+            'subcat' => 1,
+         },
+         'mandatory' => {
+            'consumer_key' => 1,
+            'tag'          => 1,            
+         },
+         'query_method'    => 'url',
+      },
+      
       'categories'       => {
          'url'       => 'http://www.mendeley.com/oapi/documents/categories',
          'optional'  => {},
@@ -111,7 +142,8 @@ my $rh_api_configuration = {
             'consumer_key'  => 1,
          },
          'query_method'    => 'get',
-         },
+      },
+         
       'subcategories'    => {
          'url'       => 'http://www.mendeley.com/oapi/documents/subcategories/%s/',
          'optional'  => { },
