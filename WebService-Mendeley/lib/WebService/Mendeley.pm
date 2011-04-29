@@ -107,8 +107,7 @@ my $rh_api_configuration = {
          },
          'mandatory' => {
             'consumer_key'  => 1,
-            'id'            => 1,
-            'type'          => 1
+            'id'            => 1
          },
          'query_method'    => 'url',
       },
