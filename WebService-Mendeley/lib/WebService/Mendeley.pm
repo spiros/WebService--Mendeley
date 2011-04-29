@@ -104,6 +104,7 @@ my $rh_api_configuration = {
       'details' => {
          'url'       => 'http://www.mendeley.com/oapi/documents/details/%s/',
          'optional'  => { 
+             'type' => 1,
          },
          'mandatory' => {
             'consumer_key'  => 1,

@@ -10,8 +10,8 @@ use_ok(' WebService::Mendeley' );
    my $rh_params = { 
       'mode'         => 'search',
       'method'       => 'details',
-      'id'           => '9783540762973',
-      'type'         => 'isbn' ,
+      'id'           => '2c8d9cb0-6d00-11df-a2b2-0026b95e3eb7',
+#      'type'         => 'isbn' ,
       'consumer_key' => '6eeb092c9ca3b42e5b1e47c29f8a4a2d04d0f37fa',
    };
 
