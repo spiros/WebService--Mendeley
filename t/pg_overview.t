@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 18;
+use Test::More tests => 13;
 
 use_ok(' WebService::Mendeley' );
 
@@ -83,12 +83,5 @@ use_ok(' WebService::Mendeley' );
       scalar @{$rh->{groups}}, 
       5
    );
-
-   foreach my $e ( @{$rh->{groups}} ) {
-      is( 
-         $e->{disciplines}->{id},
-         23
-      );
-   }
    
 }
